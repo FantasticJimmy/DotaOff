@@ -1,0 +1,107 @@
+<nav>
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo"><%= image_tag image_path('dotalogo.png') %></a>
+    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    <a href='/' class='brand-logo center'>DotaOff</a>
+    <% if current_player %>
+      <ul class="right hide-on-med-and-down">
+        <li><%= link_to current_player.nick_name,player_dashboard_path(current_player),class:'waves-effect' %></li>
+        <li><%= image_tag image_path(current_player.image_url),{class:'circle'} %></li>
+        <li><%= link_to "Logout", logout_path, method: 'delete',class:'waves-effect' %></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li>Welcome <%= link_to current_player.nick_name,player_dashboard_path(current_player),class:'waves-effect btn' %></li>
+        <li><%= link_to "Logout", logout_path, method: 'delete',class:'waves-effect  btn ' %></li>
+      </ul>
+    <% else %>
+      <ul class="right hide-on-med-and-down">
+        <li><%= link_to 'Login via Steam','/auth/steam'%></li>
+        <li><a class="modal-trigger" href="#modal_signup">Signup</a></li>      
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><%= link_to 'Login via Steam','/auth/steam', class:'btn'%></li>
+        <li><a class="btn modal-trigger" href="#modal_signup">Signup</a></li>      
+      </ul>
+    <% end %>
+  </div>
+</nav>
+<!-- //////////////////////////////////////////////////////////////////////////////// -->
+<% if !current_player %>
+  <div id="modal_signup" class="modal">
+    <div class="modal-content">
+      <h6>Sign up</h6>
+      <%= form_for(@player, url: players_path(:post)) do |f| %>
+            <div class="row">
+              <div class="input-field col s6">
+                <%= f.label :email %>
+                <%= f.email_field :email, autofocus: true, class:'col s8' %>
+                <i class="material-icons prefix col s4">account_circle</i>
+              </div>
+              <div class="input-field col s6">
+                <%= f.label :password %>
+                <%= f.password_field :password, autocomplete: "off", class:'col s8' %>
+                <% if @minimum_password_length %>
+                  <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <% end %>
+                <i class="material-icons prefix col s4">fingerprint</i>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3">
+                <%= f.label :first_name %>
+                <%= f.text_field :first_name, autocomplete: "on"%>
+              </div>
+              <div class="input-field col s3">
+                <%= f.label :last_name %>
+                <%= f.text_field :last_name, autocomplete: "on"%>
+              </div>
+              <div class="input-field col s6">
+                <%= f.label :password_confirmation %>
+                <%= f.password_field :password_confirmation, autocomplete: "off", class:'col s8' %>
+                <% if @minimum_password_length %>
+                  <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <% end %>
+                <i class="material-icons prefix col s4">fingerprint</i>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3">
+                <%= f.label :nick_name %>
+                <%= f.text_field :nick_name%>
+              </div> 
+              <div class="input-field col s3">
+                <%= f.label :steam_id %>
+                <%= f.text_field :steam_id%>
+              </div>
+              <div class="input-field col s3">
+                <%= f.label :main_role %>
+                <%= f.text_field :main_role%>
+              </div>
+              <div class="input-field col s3">
+                <%= f.label :minor_role %>
+                <%= f.text_field :minor_role%>
+              </div>                 
+            </div>
+            <div class="row">
+              
+            </div>
+            <div class="row"></div>
+            <div class="row"></div>
+            <div class="row">
+              <div class="input-field col s6 offset-s5">
+                <button class="btn waves-effect waves-light" type="submit" name="Signs up">Submit
+                  <i class="material-icons right">send</i>
+                </button>
+              </div>
+            </div>
+      <% end %>
+    </div>
+  </div>
+<%end%>
+<!-- //////////////////////////////////////////////////////////////////////////////// -->
+<script>
+$(document).ready(function(){
+  $("nav .button-collapse").sideNav({edge:'right'});
+  $('.modal-trigger').leanModal();
+})
+</script>

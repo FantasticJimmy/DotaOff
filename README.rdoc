@@ -1,0 +1,7 @@
+== README
+
+Ruby version: 2.3.0
+
+DotaOff is a Dota 2 analytical platform.
+
+But more will be coming soon....
